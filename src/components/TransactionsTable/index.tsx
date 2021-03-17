@@ -3,21 +3,24 @@ import { api } from "../../services/api";
 
 import { TransactionsTableContainer } from "./styles";
 
-interface TransactionsApi {
+interface Transaction {
   id: number;
   title: string;
   amount: number;
   type: string;
   category: string;
-  createdAt: Date;
+  createdAt: string;
+}
+interface TransactionsApi {
+  transactions: Transaction[];
 }
 
 const TransactionsTable: React.FC = () => {
-  const [transactions, setTransactions] = useState<TransactionsApi[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   const buscarDados = async () => {
-    const dados = await api.get<TransactionsApi[]>("/transactions");
-    setTransactions(dados.data);
+    const dados = await api.get<TransactionsApi>("/transactions");
+    setTransactions(dados.data.transactions);
   };
 
   useEffect(() => {
@@ -40,9 +43,18 @@ const TransactionsTable: React.FC = () => {
           {transactions.map((transaction) => (
             <tr key={transaction.id}>
               <td>{transaction.title}</td>
-              <td className={transaction.type}>R$ {transaction.amount}</td>
+              <td className={transaction.type}>
+                {new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(transaction.amount)}
+              </td>
               <td>{transaction.category}</td>
-              <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
+              <td>
+                {new Intl.DateTimeFormat("pt-BR").format(
+                  new Date(transaction.createdAt)
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
