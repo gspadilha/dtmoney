@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-modal";
 
 import closeImage from "../../assets/close.svg";
 import incomeImage from "../../assets/income.svg";
 import outcomeImage from "../../assets/outcome.svg";
 
+import { TransactionsContext } from "../../contexts/Transactions";
+
 import { IBasicChangeEvent, IBasicSubmitEvent } from "../../interfaces/general";
-import { api } from "../../services/api";
 
 import {
   NewTransactionModalContainer,
@@ -38,13 +39,16 @@ const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   isOpen,
   onRequestClose,
 }) => {
+  const { criarTransacao } = useContext(TransactionsContext);
+
   const [form, setForm] = useState(formularioInicial);
   const [type, setType] = useState(formularioInicial.type);
 
-  const handleSubmit = (event: IBasicSubmitEvent) => {
+  const handleSubmit = async (event: IBasicSubmitEvent) => {
     event.preventDefault();
-
-    api.post("/transactions", form);
+    await criarTransacao(form);
+    onRequestClose();
+    setForm(formularioInicial);
   };
 
   const handleOnChange = (event: IBasicChangeEvent) => {
