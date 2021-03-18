@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { TransactionsContext } from "../../contexts/Transactions";
-import { dateFormat, numberFormat } from "../../utils";
+import React from "react";
+import { useTransactions } from "../../hooks/useTransactions";
+import { dateFormat, moneyFormat } from "../../utils";
 
 import { TransactionsTableContainer } from "./styles";
 
 const TransactionsTable: React.FC = () => {
-  const { transactions } = useContext(TransactionsContext);
+  const { transactions } = useTransactions();
 
   return (
     <TransactionsTableContainer>
@@ -24,7 +24,7 @@ const TransactionsTable: React.FC = () => {
             <tr key={transaction.id}>
               <td>{transaction.title}</td>
               <td className={transaction.type}>
-                {numberFormat(transaction.amount)}
+                {moneyFormat(transaction.amount)}
               </td>
               <td>{transaction.category}</td>
               <td>{dateFormat(transaction.createdAt)}</td>

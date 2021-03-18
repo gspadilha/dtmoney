@@ -1,17 +1,18 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import incomeImagem from "../../assets/income.svg";
 import outcomeImagem from "../../assets/outcome.svg";
 import totalImagem from "../../assets/total.svg";
 
-import { TransactionsContext } from "../../contexts/Transactions";
+import { useTransactions } from "../../hooks/useTransactions";
 
 import { moneyFormat } from "../../utils";
 
 import { SummaryContainer, SummaryInfo } from "./styles";
 
 const Summary: React.FC = () => {
-  const { transactions } = useContext(TransactionsContext);
+  const { transactions } = useTransactions();
+
   const summary = transactions.reduce(
     (acc, transaction) => {
       switch (transaction.type) {

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 
 import closeImage from "../../assets/close.svg";
 import incomeImage from "../../assets/income.svg";
 import outcomeImage from "../../assets/outcome.svg";
 
-import { TransactionsContext } from "../../contexts/Transactions";
+import { useTransactions } from "../../hooks/useTransactions";
 
 import { IBasicChangeEvent, IBasicSubmitEvent } from "../../interfaces/general";
 
@@ -39,7 +39,7 @@ const NewTransactionModal: React.FC<NewTransactionModalProps> = ({
   isOpen,
   onRequestClose,
 }) => {
-  const { criarTransacao } = useContext(TransactionsContext);
+  const { criarTransacao } = useTransactions();
 
   const [form, setForm] = useState(formularioInicial);
   const [type, setType] = useState(formularioInicial.type);
