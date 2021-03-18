@@ -1,4 +1,4 @@
 import { dateFormat } from "./dateFormat";
-import { numberFormat } from "./numberFormat";
+import { moneyFormat } from "./moneyFormat";
 
-export { dateFormat, numberFormat };
+export { dateFormat, moneyFormat };
